@@ -1,0 +1,38 @@
+{
+    "name": "simplecms/payment",
+    "description": "支付模块",
+    "keywords": [
+        "laravel",
+        "payment",
+        "simplecms"
+    ],
+    "version": "1.0.1",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SimpleCMS\\Payment\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hackout",
+            "email": "hackout@vip.qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "simplecms/framework": ">=1.0",
+        "w7corp/easywechat": ">=6.0",
+        "alipaysdk/easysdk": ">=2.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SimpleCMS\\Payment\\PaymentServiceProvider"
+            ],
+            "aliases": {
+                "Payment": "SimpleCMS\\Payment\\Facades\\Payment"
+            }
+        }
+    }
+}
