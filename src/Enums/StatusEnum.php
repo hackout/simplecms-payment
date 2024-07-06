@@ -99,8 +99,7 @@ enum StatusEnum: int
     {
         return [
             self::Creating->value,
-            self::Pending->value,
-            self::Refunding->value
+            self::Pending->value
         ];
     }
 

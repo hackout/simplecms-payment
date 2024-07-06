@@ -105,8 +105,8 @@ class PaymentController extends BaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first());
         }
-        Event::dispatch('payment.async.notify', $order_no);
-        return $this->success();
+        $result = event('payment.async.notify', $order_no) ?? null;
+        return $this->success($result);
     }
 
     /**

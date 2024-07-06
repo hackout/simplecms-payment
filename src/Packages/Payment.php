@@ -1,13 +1,13 @@
 <?php
-namespace SimpleCMS\Payment\Packages\Payment;
+namespace SimpleCMS\Payment\Packages;
 
 use SimpleCMS\Payment\HasPayment;
 use SimpleCMS\Framework\Facades\Dict;
 use SimpleCMS\Payment\Enums\StatusEnum;
 use SimpleCMS\Payment\Models\PaymentItem;
+use SimpleCMS\Payment\Models\PaymentRefund;
 use Illuminate\Database\Eloquent\Collection;
 use SimpleCMS\Framework\Exceptions\SimpleException;
-use SimpleCMS\Payment\Models\Payment as PaymentModel;
 use SimpleCMS\Payment\Services\Private\PaymentService;
 
 class Payment
@@ -83,7 +83,50 @@ class Payment
     public function makePayment(PaymentItem $payment, mixed $appid = null): array
     {
         $channelClass = Channel::getClass($payment->payment->channel);
-        $paymentService = new $channelClass($payment->payment, $appid);
-        return $paymentService->pay();
+        $paymentService = new $channelClass($payment->payment);
+        return $paymentService->pay($appid);
+    }
+
+    /**
+     * 请求退款
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @param  PaymentItem $payment
+     * @param  float       $amount
+     * @return array
+     */
+    public function makeRefund(PaymentItem $payment, float $amount = null): array
+    {
+        $channelClass = Channel::getClass($payment->payment->channel);
+        $paymentService = new $channelClass($payment->payment);
+        return $paymentService->refund($amount);
+    }
+
+    /**
+     * 检查订单状态
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @param  PaymentItem   $payment
+     * @return array|boolean
+     */
+    public function checkOrderStatus(PaymentItem $payment): array|bool
+    {
+        $channelClass = Channel::getClass($payment->payment->channel);
+        $paymentService = new $channelClass($payment->payment);
+        return $paymentService->checkOrderStatus($payment);
+    }
+
+    /**
+     * 检查退款状态
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @param  PaymentRefund   $payment
+     * @return array|boolean
+     */
+    public function checkRefundStatus(PaymentRefund $payment): array|bool
+    {
+        $channelClass = Channel::getClass($payment->payment->channel);
+        $paymentService = new $channelClass($payment->payment);
+        return $paymentService->checkRefundStatus($payment);
     }
 }

@@ -47,4 +47,46 @@ enum RefundEnum: int
             self::Pending->value,
         ];
     }
+
+    /**
+     * 已退款
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isRefund():bool
+    {
+        return match($this){
+            self::Refund => true,
+            default => false
+        };
+    }
+
+    /**
+     * 退款中
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isPending():bool
+    {
+        return match($this){
+            self::Pending => true,
+            default => false
+        };
+    }
+
+    /**
+     * 退款失败
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isFailed():bool
+    {
+        return match($this){
+            self::Failed => true,
+            default => false
+        };
+    }
 }

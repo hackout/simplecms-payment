@@ -69,4 +69,57 @@ enum PaymentEnum: int
             default => false
         };
     }
+
+    /**
+     * 待付款
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isPending():bool
+    {
+        return match($this){
+            self::Pending => true,
+            default => false
+        };
+    }
+    /**
+     * 付款成功
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isPaid():bool
+    {
+        return match($this){
+            self::Paid => true,
+            default => false
+        };
+    }
+    /**
+     * 支付失败
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isFailed():bool
+    {
+        return match($this){
+            self::Failed => true,
+            default => false
+        };
+    }
+    /**
+     * 订单关闭
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return boolean
+     */
+    public function isClose():bool
+    {
+        return match($this){
+            self::Close => true,
+            default => false
+        };
+    }
 }

@@ -1,11 +1,8 @@
 <?php
-namespace SimpleCMS\Framework\Traits;
+namespace SimpleCMS\Payment\Traits;
 
-use Illuminate\Support\Str;
 use SimpleCMS\Payment\HasPayment;
-use Maatwebsite\Excel\Facades\Excel;
 use SimpleCMS\Payment\Models\Payment;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**

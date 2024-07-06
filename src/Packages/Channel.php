@@ -1,5 +1,5 @@
 <?php
-namespace SimpleCMS\Payment\Packages\Payment;
+namespace SimpleCMS\Payment\Packages;
 
 use SimpleCMS\Payment\Enums\ChannelEnum;
 

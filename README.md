@@ -15,69 +15,50 @@ composer require simplecms/payment
 
 ## 使用方法
 
-```php
-use SimpleCMS\Region\Facades\Region; 
-//获取所有城市
-return Region::getAll();
-//通过代码查询城市
-return Region::findRegion(string $code = '行政标识');
-//查询所有下级
-return Region::getAllChildren(string $code = '行政标识');
-//带深度查询
-return Region::getChildren(string $code, int $deep = 0);
-//坐标计算距离
-distance($lat1,$lng1,$lat2,$lng2);
-//SimpleCMS service
-$service->distance($lat1,$lng1,$maxDistance,$latKey,$lngKey);
-```
+。。。。。
 
-### Casts
+### 事件监听
 
 ```php
-use SimpleCMS\Region\Casts\Point; 
-use SimpleCMS\Region\Casts\LineString; 
-use SimpleCMS\Region\Casts\Polygon; 
+use SimpleCMS\Payment\Models\Payment;
 
-public $casts = [
-    'geo' => Point::class,
-    'geo' => LineString::class,
-    'geo' => Polygon::class
-];
+//创建支付
+Event::listen('plugin.payment.created',function(Payment $payment){
+    //Todo...
+});
+
+//待支付
+Event::listen('plugin.payment.pending',function(Payment $payment){
+    //Todo...
+});
+
+//支付成功
+Event::listen('plugin.payment.paid',function(Payment $payment){
+    //Todo...
+});
+
+//退款申请中
+Event::listen('plugin.payment.refunding',function(Payment $payment){
+    //Todo...
+});
+
+//退款成功
+Event::listen('plugin.payment.refunded',function(Payment $payment){
+    //Todo...
+});
+Event::listen('plugin.payment.close',function(Payment $payment){
+    //Todo...
+});
+
+//订单关闭
+Event::listen('plugin.payment.pending',function(Payment $payment){
+    //Todo...
+});
 ```
 
 ## SimpleCMS
 
 请先加载simplecms/framework
-
-### 服务调用方法
-
-```php
-use SimpleService;
-
-//获取距离
-$service->selectDistance(float $lat = 23.23211, float $lng = 111.23123,string $column = 'location');
-//通过记录查询
-$service->queryDistance(float $lat = 23.23211, float $lng = 111.23123, float $maxDistance = 50,string $column = 'location')
-```
-
-## 数据结构
-
-数据结构参考遵循以下格式:
-
-```bash
-{
-    "name": "名称",
-    "short": "缩写/简称/短名",
-    "code": "唯一地理标识",
-    "area": "电话区号",
-    "zip": "邮政编码",
-    "lng": 100.00000, #经度
-    "lat": 32.00000, #纬度
-    "children": [
-        ....#跟上面结构一样
-    ]
-}
-```
 
 ## Facades
 

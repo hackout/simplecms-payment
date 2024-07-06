@@ -2,10 +2,7 @@
 
 namespace SimpleCMS\Payment;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
-use SimpleCMS\Payment\Services\DistanceService;
-use SimpleCMS\Framework\Services\SimpleService;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -16,19 +13,8 @@ class PaymentServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->bootConfig();
-        $this->bootDefaultDisk();
+        $this->bindObservers();
         $this->loadFacades();
-    }
-
-    /**
-     * 创建默认目录
-     * @return void
-     */
-    protected function bootDefaultDisk(): void
-    {
-        if (!is_dir(base_path('routes/console'))) {
-            @mkdir(base_path('routes/console'), 0755);
-        }
     }
 
     /**
@@ -66,6 +52,19 @@ class PaymentServiceProvider extends ServiceProvider
     }
 
     /**
+     * 加载模型事件
+     *
+     * @author Dennis Lui <hackout@vip.qq.com>
+     * @return void
+     */
+    protected function bindObservers(): void
+    {
+        \SimpleCMS\Payment\Models\Payment::observe(\SimpleCMS\Payment\Observers\PaymentObserver::class);
+        \SimpleCMS\Payment\Models\PaymentItem::observe(\SimpleCMS\Payment\Observers\PaymentItemObserver::class);
+        \SimpleCMS\Payment\Models\PaymentRefund::observe(\SimpleCMS\Payment\Observers\PaymentRefundObserver::class);
+    }
+
+    /**
      * 初始化配置文件
      * @return void
      */
@@ -75,6 +74,7 @@ class PaymentServiceProvider extends ServiceProvider
             __DIR__ . '/../config/cms_payment.php' => config_path('cms_payment.php'),
             __DIR__ . '/../database/migrations' => database_path('migrations'),
             __DIR__ . '/../routes/backend.php' => config_path('../routes/backend/payment.php'),
+            __DIR__ . '/../routes/console.php' => config_path('../routes/console/payment.php'),
             __DIR__ . '/../database/seeders' => database_path('seeders'),
         ], 'simplecms');
     }
